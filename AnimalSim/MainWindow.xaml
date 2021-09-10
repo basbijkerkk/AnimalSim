@@ -5,8 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AnimalSim"
         mc:Ignorable="d"
-        Title="Animal Feeding Simulator" Height="395" Width="241">
-    <Grid>
+        Title="Animal Feeding Simulator" Height="415" Width="246" ResizeMode="NoResize">
+    <Grid Margin="0,0,0,-6">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="3*"/>
             <ColumnDefinition Width="37*"/>
