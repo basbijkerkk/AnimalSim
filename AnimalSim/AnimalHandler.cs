@@ -23,7 +23,7 @@ namespace AnimalSim
         {
             listView = listv;
             UseEnergyTimer.Tick += ConsumeTick;
-            UseEnergyTimer.Interval = TimeSpan.FromMilliseconds(50);
+            UseEnergyTimer.Interval = TimeSpan.FromMilliseconds(500);
             UseEnergyTimer.Start();
         }
 
