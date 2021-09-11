@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,70 +13,24 @@ namespace AnimalSim
 {
     public class AnimalHandler
     {
-        public ObservableCollection<AnimalBase> Animals = new ObservableCollection<AnimalBase>();
+        public static ObservableCollection<AnimalBase> Animals = new ObservableCollection<AnimalBase>();
         DispatcherTimer UseEnergyTimer = new DispatcherTimer();
 
-        private ListView listView;
-        private string Animal = "ape";
+        private string AnimalSwitch = "ape";
         const int DefaultEnergy = 100;
         const int ApeEnergy = 60;
 
-        public AnimalHandler(ListView listv)
+        public AnimalHandler()
         {
-            listView = listv;
             UseEnergyTimer.Tick += ConsumeTick;
             UseEnergyTimer.Interval = TimeSpan.FromMilliseconds(500);
             UseEnergyTimer.Start();
         }
-
-        private void ConsumeTick(object sender, EventArgs e)
+        public static void RemoveAnimal(AnimalBase anim)
         {
-            try
-            {
-                switch (Animal)
-                {
-                    case "ape":
-                        Animal = "lion";
-                        foreach (AnimalBase an in Animals)
-                        {
-                            if (an.aType == "Ape")
-                            {
-                                an.UseEnergy(Animals);
-                            }
-                        }
-                        break;
-                    case "lion":
-                        Animal = "elephant";
-                        foreach (AnimalBase an in Animals)
-                        {
-                            if (an.aType == "Lion")
-                            {
-                                an.UseEnergy(Animals);
-                            }
-                        }
-                        break;
-                    case "elephant":
-                        Animal = "ape";
-                        foreach (AnimalBase an in Animals)
-                        {
-                            if (an.aType == "Elephant")
-                            {
-                                an.UseEnergy(Animals);
-                            }
-                        }
-                        break;
-                }
-            }
-            catch (InvalidOperationException exc)
-            {
-
-            }
-            finally
-            {
-                listView.Items.Refresh();
-            }
+            if (Animals.Contains(anim))
+                Animals.Remove(anim);
         }
-
         public void GenerateApe(string name)
         {
             if(!Animals.Contains(new Ape(ApeEnergy, name)))
@@ -110,11 +66,43 @@ namespace AnimalSim
                             Animal.EatPineapple();
                             break;
                     }
-                    listView.Items.Refresh();
                     await Task.Delay(100);
                 }
             }
             return true;
+        }
+        private void ConsumeTick(object sender, EventArgs e)
+        {
+            try
+            {
+                switch (AnimalSwitch)
+                {
+                    case "ape":
+                        AnimalSwitch = "lion";
+                        foreach (AnimalBase an in Animals)
+                            if (an.aType == "Ape")
+                                an.UseEnergy();
+                        break;
+
+                    case "lion":
+                        AnimalSwitch = "elephant";
+                        foreach (AnimalBase an in Animals)
+                            if (an.aType == "Lion")
+                                an.UseEnergy();
+                        break;
+
+                    case "elephant":
+                        AnimalSwitch = "ape";
+                        foreach (AnimalBase an in Animals)
+                            if (an.aType == "Elephant")
+                                an.UseEnergy();
+                        break;
+                }
+            }
+            catch (InvalidOperationException)
+            {
+
+            }
         }
     }
 

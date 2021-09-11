@@ -25,11 +25,10 @@ namespace AnimalSim
         public MainWindow()
         {
             InitializeComponent();
-            anHandle = new AnimalHandler(listView);
-            listView.ItemsSource = anHandle.Animals;
+            anHandle = new AnimalHandler();
+            listView.ItemsSource = AnimalHandler.Animals;
             PopulateComboBoxes();
         }
-
         private void PopulateComboBoxes()
         {
             comboBox.ItemsSource = new List<string>() { "Ape's", "Lion's", "Elephant's", "Feed All"};
@@ -41,7 +40,7 @@ namespace AnimalSim
             {
                 await anHandle.FeedAnimal(comboBox.Text);
             }
-            catch(InvalidOperationException ex)
+            catch(InvalidOperationException)
             {
 
             }

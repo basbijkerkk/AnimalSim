@@ -19,12 +19,12 @@ namespace AnimalSim.Animals
     {
         public Ape(int energy, string name) : base(energy, name){}
         public override void EatBanana() => Energy += 10;
-        public override void UseEnergy(ObservableCollection<AnimalBase> lv)
+        public override void UseEnergy()
         {
             Energy -= 2;
             if (Energy <= 0)
             {
-                lv.Remove(this);
+                AnimalHandler.RemoveAnimal(this);
             }
         }
     }
